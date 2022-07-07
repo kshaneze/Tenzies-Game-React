@@ -5,13 +5,31 @@ import Confetti from 'react-confetti'
 
 function App() {
 
-  
-
   const [dice, setDice] = React.useState(allNewDice())
 
   const [tenzies, setTenzies] = React.useState(false)
 
   const [rollCount, setRollCount] = React.useState(0)
+
+  const [counter, setCounter] = React.useState(0);
+
+  
+  let timer
+  React.useEffect(() => {
+      if(!tenzies) {
+        timer =
+        counter < 120 && setInterval(() => setCounter(counter + 1), 1000);
+        return () => clearInterval(timer);
+        
+    } else {
+        clearInterval(timer)
+    }
+        
+  }, [counter]);
+
+  const minutes = Math.floor(counter / 60)
+  const seconds = counter % 60
+  
 
   React.useEffect(() => {
    const allHeld = dice.every(die => die.isHeld)
@@ -62,6 +80,7 @@ function App() {
       setDice(allNewDice())
       setTenzies(false)
       setRollCount(0)
+      setCounter(0)
     }  
     
   }
@@ -87,7 +106,32 @@ function App() {
         <div className='die-container'>
             {diceElements}
       </div>
-      <h3>Roll {rollCount}</h3>
+
+      <div className='scores--time-container'>
+        <div className='scores--best-time'>
+          <h3>Best Time</h3>
+          <h2>2</h2>
+        </div>
+
+        <div className='scores--current-time'>
+          <h3>Current Time</h3>
+          <h2>0{minutes}:{("0" + seconds).slice(-2)}</h2>
+        </div>       
+      </div>
+
+      <div className='scores--roll-container'>
+        <div className='scores--best-roll'>
+          <h3>Best Score</h3>
+          <h3>Roll 10</h3>
+        </div>
+
+        <div className='scores--current-roll'>
+          <h3>Current Roll</h3>
+          <h3>Roll {rollCount}</h3>
+        </div>       
+      </div>
+
+      
 
       <button onClick={rollDice} className='btn btn-roll'>{tenzies ? 'New Game'  : 'Roll'}</button>
       

@@ -79,3 +79,13 @@ body {
   margin-top: 0;
   text-align: center;
 }
+
+.scores--time-container {
+  display: flex;
+  gap: 100px;
+}
+
+.scores--roll-container {
+  display: flex;
+  gap: 100px;
+}
